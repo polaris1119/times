@@ -115,3 +115,52 @@ func StrToTime(value string) time.Time {
 	}
 	panic(err)
 }
+
+func StrToDate(value string) time.Time {
+	if value == "" {
+		return time.Time{}
+	}
+	layouts := []string{
+		"2006-01-02 -0700 MST",
+		"2006-01-02 -0700",
+		"2006-01-02",
+		"2006/01/02 -0700 MST",
+		"2006/01/02 -0700",
+		"2006/01/02 ",
+		"2006-01-02 MST",
+		"2006-01-02",
+		"2006-01-02",
+		"2006/01/02 MST",
+		"2006/01/02 -0700",
+		"2006/01/02",
+		"2006-01-02 -0700 -0700",
+		"2006/01/02 -0700 -0700",
+		"2006-01-02 -0700 -0700",
+		"2006/01/02 -0700 -0700",
+		time.ANSIC,
+		time.UnixDate,
+		time.RubyDate,
+		time.RFC822,
+		time.RFC822Z,
+		time.RFC850,
+		time.RFC1123,
+		time.RFC1123Z,
+		time.RFC3339,
+		time.RFC3339Nano,
+		time.Kitchen,
+		time.Stamp,
+		time.StampMilli,
+		time.StampMicro,
+		time.StampNano,
+	}
+
+	var t time.Time
+	var err error
+	for _, layout := range layouts {
+		t, err = time.Parse(layout, value)
+		if err == nil {
+			return t
+		}
+	}
+	panic(err)
+}
